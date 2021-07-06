@@ -6,11 +6,12 @@
 
 using Position = std::pair<unsigned int, unsigned int>;
 using GameState = std::vector<std::string>;
+using Obstacles = std::vector<Position>;
 
+constexpr unsigned int NUM_OBSTACLES = 3;
 constexpr unsigned int LEN_X = 5;
 constexpr unsigned int LEN_Y = 5;
 constexpr Position START = { 0, 0 };
-constexpr Position GOAL = { LEN_X - 1, LEN_Y - 1 };
 
 enum class ConsoleInput : int
 {
@@ -21,13 +22,40 @@ enum class ConsoleInput : int
     INVALID = 4
 };
 
-ConsoleInput map_user_input(char user_input);
+class Game
+{
+public:
+    Game();
 
-void print_game_state(Position player);
+    ConsoleInput map_user_input(char user_input);
 
-Position execute_move(Position player,
-    ConsoleInput move);
+    void update_game_state();
 
-bool is_finished(Position player);
+    void print_game_state();
 
-void game();
+    void move_player(ConsoleInput move);
+
+    void move_obstacles();
+
+    void generate_random_obstacles();
+
+    bool is_dead();
+
+    bool is_finished();
+
+    unsigned int random_uint(const unsigned int lower,
+        const unsigned int upper);
+
+    Position random_position(const unsigned int lower_x,
+        const unsigned int upper_x,
+        const unsigned int lower_y,
+        const unsigned int upper_y);
+
+    void start_game();
+
+private:
+    Position m_player;
+    Position m_goal;
+    GameState m_game_state;
+    Obstacles m_obstacles;
+};
